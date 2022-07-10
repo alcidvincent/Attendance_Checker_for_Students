@@ -1,11 +1,19 @@
 import express, { Application, Request, Response } from "express";
+import { AppDataSource } from "./database/data-source";
+import studentsRoutes from "./routes/studentsRoutes";
 
 const app: Application = express();
 const port = 3000;
 
+AppDataSource.initialize()
+.then(() => {})
+.catch((error) => console.log(error))
+
 // Body parsing Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/students", studentsRoutes)
 
 app.get(
     "/",
