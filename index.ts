@@ -9,9 +9,9 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get(
     "/",
-    async (req: Request, res: Response): Promise<Response> => {
+    async (req, res): Promise<Response> => {
         return res.status(200).send({
-            message: "Hello World!",
+            message: "Attendance Checker for Students",
         });
     }
 );
