@@ -1,20 +1,26 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Attendance } from "./Attendance"
 
 @Entity()
 export class Student {
     [x: string]: any
     @PrimaryGeneratedColumn() // PrimaryGeneratedColumn === AUTO_INCREMENT
-    student_id: number
+    id: number
 
     @Column()
     name: string
 
-    @Column()
+    @Column({
+        type: "date"
+    })
     birthday: string
+
+    @Column()
+    year_level: number
 
     @Column()
     address: string
 
     @Column()
-    contact_number: number
+    contact_number: string
 }
