@@ -12,7 +12,7 @@ export const getStudentById = async (req, res) => {
     const params = req.params;
     const id = params.id;
     const studentRepository = AppDataSource.getRepository(Student);
-    const student = await studentRepository.findOneBy({student_id: id});
+    const student = await studentRepository.findOneBy({id: id});
     return res.status(200).send({ message: 'Request successful', data: student});
 }
 
@@ -21,6 +21,7 @@ export const addStudent = async (req, res) => {
     const newStudent = new Student()
     newStudent.name = body.name
     newStudent.birthday = body.birthday
+    newStudent.year_level = parseInt(body.year_level)
     newStudent.address = body.address
     newStudent.contact_number = body.contact_number
     const studentRepository = AppDataSource.getRepository(Student);
@@ -31,9 +32,9 @@ export const addStudent = async (req, res) => {
 export const patchStudentInfo = async (req, res) => {
     const body = req.body;
     const studentRepository = AppDataSource.getRepository(Student);
-    const student = await studentRepository.findOneBy({student_id: body.student_id});
+    const student = await studentRepository.findOneBy({id: body.student_id});
     await studentRepository.update(student, body);
-    return res.status(200).send({ message: 'Student Info successfully patched', data:student, body});
+    return res.status(200).send({ message: 'Student Info successfully patched', data:{oldData: student, updated: body}});
 }
 
 export const updateStudent = async (req, res) => {
@@ -47,7 +48,7 @@ export const deleteStudent = async (req, res) => {
     const params = req.params;
 	const id = params.id;
     const studentRepository = AppDataSource.getRepository(Student);
-    const student = await studentRepository.findOneBy({student_id: id});
+    const student = await studentRepository.findOneBy({id: id});
     await studentRepository.remove(student);
     return res.status(200).send({ message: 'Student successfully deleted'});
 }
