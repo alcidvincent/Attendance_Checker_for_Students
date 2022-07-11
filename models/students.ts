@@ -3,5 +3,5 @@ export type StudentData = {
     name: string,
     birthday: string,
     address: string,
-    contact_number: number
+    contact_number: string
 }
