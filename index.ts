@@ -1,6 +1,7 @@
 import express, { Application, Request, Response } from "express";
 import { AppDataSource } from "./database/data-source";
 import studentsRoutes from "./routes/studentsRoutes";
+import attendanceRoutes from "./routes/attendanceRoutes";
 
 const app: Application = express();
 const port = 3000;
@@ -13,7 +14,8 @@ AppDataSource.initialize()
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/students", studentsRoutes)
+app.use("/students", studentsRoutes);
+app.use("/attendance", attendanceRoutes)
 
 app.get(
     "/",
