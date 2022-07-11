@@ -6,6 +6,6 @@ const router = Router();
 router.post("/:studentId", addAttendance);
 router.get("/", getAllAttendance);
 router.get("/:studentId", getStudentAttendance);
-router.get("/:date", getTodayAttendance);
+router.get("/today/:date", getTodayAttendance);
 
 export default router;

@@ -12,7 +12,8 @@ export class Attendance {
     student: Student
 
     @Column({
-        type: "datetime"
+        type: "datetime",
+        default: () => 'CURRENT_TIMESTAMP'
     })
     attendance_date: string
 }
