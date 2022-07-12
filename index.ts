@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 import express, { Application, Request, Response } from "express";
 import { AppDataSource } from "./database/data-source";
 import studentsRoutes from "./routes/studentsRoutes";
