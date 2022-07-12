@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../database/data-source";
 import { UserAccounts } from "../database/entity/UserAccounts";
+import bcrypt from "bcrypt"
 
-export const addUser = async (req: Request, res: Response) => {
+export const addUser = (req: Request, res: Response) => {
     const body = req.body;
     try {
         if(!body) {
@@ -30,11 +31,19 @@ export const addUser = async (req: Request, res: Response) => {
         }
     
         const userAccountsRepository = AppDataSource.getRepository(UserAccounts);
-        const newAccount = await userAccountsRepository.save(body)
-        return res.status(201).send({
-            message: "User added successfully",
-            data: newAccount
-        })
+        const saltRounds = parseInt(process.env.SALT_ROUNDS)
+        // password encryption
+        bcrypt.hash(body.password, saltRounds, async function(err, hash) {
+            if(err) {
+                throw new Error("Password hashing failed")
+            }
+            const dataWithEncryptedPW = {...body, password: hash}
+            const newAccount = await userAccountsRepository.save(dataWithEncryptedPW)
+            return res.status(201).send({
+                message: "User added successfully",
+                data: newAccount
+            })
+        });
     } catch (error) {
         return res.status(500).send({
             message: `Error encountered: ${error}`
