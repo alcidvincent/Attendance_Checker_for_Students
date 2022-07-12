@@ -15,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/students", studentsRoutes);
-app.use("/attendance", attendanceRoutes)
+app.use("/attendance", attendanceRoutes);
 
 app.get(
     "/",
