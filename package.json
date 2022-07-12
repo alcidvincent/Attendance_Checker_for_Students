@@ -11,6 +11,8 @@
   "author": "Eugene Vincent Alcid",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "mysql": "^2.18.1",
     "reflect-metadata": "^0.1.13",
