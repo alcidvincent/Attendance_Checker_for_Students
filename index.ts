@@ -3,6 +3,7 @@ import { AppDataSource } from "./database/data-source";
 import studentsRoutes from "./routes/studentsRoutes";
 import attendanceRoutes from "./routes/attendanceRoutes";
 import yearLevelRoutes from "./routes/yearLevelRoutes";
+import userAccountsRoutes from "./routes/userAccountsRoutes"
 
 const app: Application = express();
 const port = 3000;
@@ -18,6 +19,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/students", studentsRoutes);
 app.use("/attendance", attendanceRoutes);
 app.use("/yearLevel", yearLevelRoutes);
+app.use("/users", userAccountsRoutes);
 
 app.get(
     "/",
