@@ -8,7 +8,7 @@ export const addAttendance = async (req, res) =>{
     const id = params.studentId;
     const attendanceRepository = AppDataSource.getRepository(Attendance);
     const student = await attendanceRepository.save({student: id});
-    return res.status(200).send({ 
+    return res.status(201).send({ 
         message: 'Attendance successfully added', 
         data: {
             id,
