@@ -3,33 +3,30 @@ import { AppDataSource } from "../database/data-source";
 import { UserAccounts } from "../database/entity/UserAccounts";
 import bcrypt from "bcrypt"
 
+export const loginUser = async (req: Request, res: Response) => {
+    const body: UserAccounts = req.body;
+    const userAccountsRepository = AppDataSource.getRepository(UserAccounts);
+    const user = await userAccountsRepository.findOneBy({
+        username: body.username
+    });
+
+    bcrypt.compare(body.password, user.password).then(function(result: boolean) {
+        if(result) {
+            return res.status(200).send({
+                "message":"Request successful",
+                "data": user
+            })
+        } else {
+            return res.status(401).send({
+                "message": "Login failed"
+            })
+        }
+    });
+}
+
 export const addUser = (req: Request, res: Response) => {
     const body = req.body;
     try {
-        if(!body) {
-            return res.status(422).send({
-                message: "No data"
-            });
-        }
-    
-        if(!body.username) {
-            return res.status(422).send({
-                message: "Missing username"
-            });
-        }
-    
-        if(!body.emailAddress) {
-            return res.status(422).send({
-                message: "Missing email address"
-            });
-        }
-    
-        if(!body.password) {
-            return res.status(422).send({
-                message: "Missing password"
-            });
-        }
-    
         const userAccountsRepository = AppDataSource.getRepository(UserAccounts);
         const saltRounds = parseInt(process.env.SALT_ROUNDS)
         // password encryption

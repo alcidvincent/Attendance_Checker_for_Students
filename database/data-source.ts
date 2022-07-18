@@ -12,7 +12,7 @@ export const AppDataSource = new DataSource({
     password: "",
     database: "studentregistration",
     synchronize: true,
-    logging: true,
+    logging: false,
     entities: [Student, Attendance, YearLevel, UserAccounts],
     subscribers: [],
     migrations: [],
