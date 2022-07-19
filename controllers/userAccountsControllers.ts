@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../database/data-source";
 import { UserAccounts } from "../database/entity/UserAccounts";
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 export const loginUser = async (req: Request, res: Response) => {
     const body: UserAccounts = req.body;
@@ -9,12 +10,13 @@ export const loginUser = async (req: Request, res: Response) => {
     const user = await userAccountsRepository.findOneBy({
         username: body.username
     });
-
+    var token = jwt.sign({ id: body.id}, process.env.JWT_SECRET, { expiresIn: 86400 });
     bcrypt.compare(body.password, user.password).then(function(result: boolean) {
         if(result) {
             return res.status(200).send({
                 "message":"Request successful",
-                "data": user
+                "data": user,
+                token
             })
         } else {
             return res.status(401).send({
@@ -35,13 +37,16 @@ export const addUser = (req: Request, res: Response) => {
                 throw new Error("Password hashing failed")
             }
             const dataWithEncryptedPW = {...body, password: hash}
+            var token = jwt.sign({ id: body.id}, process.env.JWT_SECRET, { expiresIn: 86400 });
             const newAccount = await userAccountsRepository.save(dataWithEncryptedPW)
             return res.status(201).send({
                 message: "User added successfully",
-                data: newAccount
+                data: newAccount,
+                token
             })
         });
-    } catch (error) {
+        }    
+    catch (error) {
         return res.status(500).send({
             message: `Error encountered: ${error}`
         });
@@ -52,7 +57,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
     try {
         const userAccountsRepository = AppDataSource.getRepository(UserAccounts);
         const userAccounts = await userAccountsRepository.find()
-        return res.status(201).send({
+        return res.status(200).send({
             message: "Request successful",
             data: userAccounts
         });

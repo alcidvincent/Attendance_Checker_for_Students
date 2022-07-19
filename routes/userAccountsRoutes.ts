@@ -1,17 +1,15 @@
 import { Router } from "express";
 import { addUser, getAllUsers, loginUser } from "../controllers/userAccountsControllers";
 import authorizationMiddleware from "../middlewares/authorizationMiddleware";
-import userAccountsMiddleware from "../middlewares/userAccountsMiddlewares";
+import userAccountsMiddlewares from "../middlewares/userAccountsMiddlewares";
 
 const router = Router();
 
-router.use(userAccountsMiddleware);
-
-router.post("/login", loginUser);
+router.use(userAccountsMiddlewares)
 router.post("/signup", addUser);
+router.post("/login", loginUser);
 
 router.use(authorizationMiddleware);
-
 router.get("/", getAllUsers);
 
 export default router;

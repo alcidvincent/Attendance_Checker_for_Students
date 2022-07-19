@@ -1,17 +1,22 @@
 import { Router } from "express"; 
+import jwt from "jsonwebtoken"
 
 const router = Router();
 
 router.use("/", (req, res, next) => {
     try {
-        console.log("Middleware")
-        const authorization = req.headers.authorization;
+        var authorization = req.headers.authorization;
         if(authorization) {
             if(authorization.split(' ').length === 2 ) {
-                const [tokenType, bearerToken] = authorization.split(' ')
+                var [tokenType, bearerToken] = authorization.split(' ')
                 if(tokenType === "Bearer") {
-                    console.log(bearerToken)
-                    next()
+                    jwt.verify(bearerToken, process.env.JWT_SECRET, function (err, decoded){
+                        if (err) 
+                        return res.status(401).send({
+                            "message": "You are not authorized"
+                        })
+                        next()
+                    });  
                 } else {
                     return res.status(401).send({
                         "message": "You are not authorized"
