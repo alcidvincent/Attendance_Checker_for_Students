@@ -52,3 +52,27 @@ export const deleteStudent = async (req, res) => {
     await studentRepository.remove(student);
     return res.status(200).send({ message: 'Student successfully deleted'});
 }
+
+export const exportStudents = async (req, res, next) => {
+    const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+    const studentRepository = AppDataSource.getRepository(Student);
+    const students = await studentRepository.find();
+    const csvWriter = createCsvWriter({
+        path: 'out.csv',
+        header: [
+          {id: 'id', title: 'id'},
+          {id: 'name', title: 'name'},
+          {id: 'birthday', title: 'birthday'},
+          {id: 'address', title: 'address'},
+          {id: 'contact_number', title: 'contact_number'},
+          {id: 'picture', title: 'picture'},
+        ]
+    });
+
+    await csvWriter.writeRecords(students)
+    return res.sendFile("out.csv", {root:global.ROOT_DIR}, (err) => {
+        if (err) {
+            next(err);
+        } 
+    });
+}
