@@ -25,4 +25,9 @@ export class Student {
 
     @Column()
     contact_number: string
+
+    @Column({
+        nullable: true
+    })
+    picture: string
 }
