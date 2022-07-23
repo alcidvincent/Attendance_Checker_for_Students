@@ -1,6 +1,8 @@
 import { DataSource } from "typeorm";
 import { Attendance } from "./entity/Attendance";
 import { Student } from "./entity/Student";
+import { YearLevel } from "./entity/YearLevel";
+import { UserAccounts } from "./entity/UserAccounts";
 
 export const AppDataSource = new DataSource({
     type: "mysql",
@@ -10,8 +12,8 @@ export const AppDataSource = new DataSource({
     password: "",
     database: "studentregistration",
     synchronize: true,
-    logging: true,
-    entities: [Student, Attendance],
+    logging: false,
+    entities: [Student, Attendance, YearLevel, UserAccounts],
     subscribers: [],
     migrations: [],
 })

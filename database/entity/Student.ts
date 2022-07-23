@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, JoinColumn, ManyToOne } from "typeorm"
 import { Attendance } from "./Attendance"
+import { YearLevel } from "./YearLevel"
 
 @Entity()
 export class Student {
@@ -15,7 +16,8 @@ export class Student {
     })
     birthday: string
 
-    @Column()
+    @ManyToOne(() => YearLevel, (year_level) => year_level.year_id)
+    @JoinColumn({ name: "year_id" })
     year_level: number
 
     @Column()
@@ -23,4 +25,9 @@ export class Student {
 
     @Column()
     contact_number: string
+
+    @Column({
+        nullable: true
+    })
+    picture: string
 }
