@@ -1,18 +1,20 @@
 require('dotenv').config()
 
-import express, { Application, Request, Response } from "express";
+import { Application, Request, Response } from "express";
 import { AppDataSource } from "./database/data-source";
 import studentsRoutes from "./routes/studentsRoutes";
 import attendanceRoutes from "./routes/attendanceRoutes";
 import yearLevelRoutes from "./routes/yearLevelRoutes";
 import userAccountsRoutes from "./routes/userAccountsRoutes"
 import { exportStudents } from "./controllers/studentsControllers";
-import path from "path";
 import authorizationMiddleware from "./middlewares/authorizationMiddleware";
 
+const express = require('express')
 const app: Application = express();
-const port = 5000;
+const host = '0.0.0.0';
+const port = 8080;
 
+const path = require('path');
 global.ROOT_DIR = path.dirname(path.join(__dirname, "Node.js"))
 
 AppDataSource.initialize()
@@ -41,7 +43,7 @@ app.use(authorizationMiddleware)
 app.get("/exportStudents", exportStudents)
 
 try {
-    app.listen(port, (): void => {
+    app.listen(port, host, (): void => {
         console.log(`Connected successfully on port ${port}`);
     });
 } catch (error) {
