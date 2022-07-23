@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Attendance checker for students",
   "main": "index.js",
+  "engines": {
+    "node": "16.x"
+  },
   "scripts": {
     "start:dev": "ts-node-dev ./index.ts",
     "compile": "npx tsc index.ts",
