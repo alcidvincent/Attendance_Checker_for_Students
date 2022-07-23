@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 import { AppDataSource } from "../database/data-source";
 import { UserAccounts } from "../database/entity/UserAccounts";
-import bcrypt from "bcrypt"
-import jwt from "jsonwebtoken"
+
+const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt");
 
 export const loginUser = async (req: Request, res: Response) => {
     const body: UserAccounts = req.body;
