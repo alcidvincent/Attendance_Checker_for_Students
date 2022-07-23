@@ -11,7 +11,7 @@ import path from "path";
 import authorizationMiddleware from "./middlewares/authorizationMiddleware";
 
 const app: Application = express();
-const port = 3000;
+const port = 5000;
 
 global.ROOT_DIR = path.dirname(path.join(__dirname, "Node.js"))
 
